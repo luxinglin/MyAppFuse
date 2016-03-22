@@ -1,0 +1,1 @@
+mvn archetype:generate -B -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-spring-archetype -DarchetypeVersion=3.5.0 -DgroupId=com.h3c -DartifactId=demo -DarchetypeRepository=https://oss.sonatype.org/content/repositories/appfuse
