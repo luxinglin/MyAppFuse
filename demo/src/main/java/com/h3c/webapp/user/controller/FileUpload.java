@@ -1,4 +1,4 @@
-package com.h3c.webapp.common.controller;
+package com.h3c.webapp.user.controller;
 
 
 /**

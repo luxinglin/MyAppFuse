@@ -1,6 +1,6 @@
 package com.h3c.webapp.controller;
 
-import com.h3c.webapp.common.controller.BaseFormController;
+import com.h3c.webapp.user.controller.BaseFormController;
 import com.h3c.webapp.user.controller.PasswordHintController;
 import org.junit.Before;
 import org.junit.Test;

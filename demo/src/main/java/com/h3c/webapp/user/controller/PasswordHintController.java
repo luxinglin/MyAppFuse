@@ -1,6 +1,5 @@
 package com.h3c.webapp.user.controller;
 
-import com.h3c.webapp.common.controller.BaseFormController;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.appfuse.model.User;

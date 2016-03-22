@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.h3c.webapp.common.controller.BaseFormController;
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
 import com.h3c.webapp.common.util.RequestUtil;

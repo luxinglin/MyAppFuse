@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.h3c.webapp.common.controller.BaseFormController;
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.Constants;
 import org.appfuse.model.Role;

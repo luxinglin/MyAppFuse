@@ -5,7 +5,6 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.h3c.webapp.common.controller.BaseFormController;
 import org.appfuse.Constants;
 import org.appfuse.model.User;
 import org.appfuse.service.RoleManager;

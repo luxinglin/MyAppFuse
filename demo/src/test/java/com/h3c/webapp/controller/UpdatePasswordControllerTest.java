@@ -1,6 +1,6 @@
 package com.h3c.webapp.controller;
 
-import com.h3c.webapp.common.controller.BaseFormController;
+import com.h3c.webapp.user.controller.BaseFormController;
 import com.h3c.webapp.user.controller.UpdatePasswordController;
 import org.apache.commons.lang.RandomStringUtils;
 import org.appfuse.model.User;
