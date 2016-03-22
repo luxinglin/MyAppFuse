@@ -1,5 +1,6 @@
 package com.h3c.webapp.controller;
 
+import com.h3c.webapp.user.controller.UserController;
 import org.appfuse.Constants;
 import org.appfuse.service.UserManager;
 import org.junit.Before;

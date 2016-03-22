@@ -1,5 +1,6 @@
 package com.h3c.webapp.controller;
 
+import com.h3c.webapp.user.controller.SignupController;
 import org.appfuse.Constants;
 import org.junit.Before;
 import org.junit.Test;
