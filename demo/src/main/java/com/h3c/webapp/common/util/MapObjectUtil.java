@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  *
  */
-public class MapOjbectUtil {
+public class MapObjectUtil {
     /**
      * map 转 Bean
      *
