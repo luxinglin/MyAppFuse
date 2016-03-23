@@ -1,8 +1,8 @@
-package com.h3c.webapp.common.taglib;
+package com.h3c.common.taglib;
 
+import com.h3c.common.Constants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.h3c.common.Constants;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -156,7 +156,7 @@ public class ConstantsTag extends TagSupport {
      * @throws JspException if the scopeName is not a valid name.
      */
     public int getScope(String scopeName) throws JspException {
-        Integer scope = (Integer) SCOPES.get(scopeName.toLowerCase());
+        Integer scope = SCOPES.get(scopeName.toLowerCase());
 
         if (scope == null) {
             throw new JspException("Scope '" + scopeName + "' not a valid option");

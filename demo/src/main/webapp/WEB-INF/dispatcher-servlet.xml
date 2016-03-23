@@ -24,22 +24,22 @@
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="ApplicationResources"/>
         <property name="useCodeAsDefaultMessage" value="true"/>
-    </bean> 
+    </bean>
 
-    <context:component-scan base-package="com.h3c.webapp"/>
+    <context:component-scan base-package="com.h3c.*.controller"/>
 
     <!-- Configures the @Controller programming model -->
     <mvc:annotation-driven/>
 
     <!-- Convenient way to map URLs to JSPs w/o having a Controller -->
     <mvc:view-controller path="/admin/activeUsers" view-name="admin/activeUsers"/>
-    <mvc:view-controller path="/home" view-name="/jsp/pages/home.jsp"/>
+    <mvc:view-controller path="/home" view-name="home"/>
 
     <!-- View Resolver for JSPs -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="requestContextAttribute" value="rc"/>
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="prefix" value="/jsp/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
     

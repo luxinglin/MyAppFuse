@@ -1,4 +1,4 @@
-package com.h3c.webapp.common.taglib;
+package com.h3c.common.taglib;
 
 import com.h3c.user.model.LabelValue;
 import org.displaytag.tags.el.ExpressionEvaluator;
@@ -7,12 +7,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Tag for creating multiple &lt;select&gt; options for displaying a list of

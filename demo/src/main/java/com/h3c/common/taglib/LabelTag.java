@@ -1,4 +1,4 @@
-package com.h3c.webapp.common.taglib;
+package com.h3c.common.taglib;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -242,13 +242,13 @@ public final int doEndTag()
                 .getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
         ValidatorFactory factory = null;
         try {
-            factory = (ValidatorFactory) BeanFactoryUtils
+            factory = BeanFactoryUtils
                     .beanOfTypeIncludingAncestors(ctx, ValidatorFactory.class, true, true);
         } catch (NoSuchBeanDefinitionException e) {
             // look in main application context (i.e. applicationContext.xml)
             ctx = WebApplicationContextUtils
                     .getRequiredWebApplicationContext(pageContext.getServletContext());
-            factory = (ValidatorFactory) BeanFactoryUtils
+            factory = BeanFactoryUtils
                     .beanOfTypeIncludingAncestors(ctx, ValidatorFactory.class, true, true);
         }
         return factory.getValidatorResources();

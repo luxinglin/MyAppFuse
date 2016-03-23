@@ -1,4 +1,4 @@
-package com.h3c.webapp.common.spring;
+package com.h3c.common.spring;
 
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValue;

@@ -23,10 +23,11 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package com.h3c.webapp.common.taglib;
+package com.h3c.common.taglib;
+
+import com.h3c.common.jsp.EscapeXmlELResolver;
 
 import javax.servlet.jsp.tagext.TagSupport;
-import com.h3c.webapp.common.jsp.EscapeXmlELResolver;
 
 /**
  * Tag surrounds JSP code in which EL expressions should not be XML-escaped.

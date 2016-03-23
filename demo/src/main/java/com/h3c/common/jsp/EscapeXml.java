@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.h3c.webapp.common.jsp;
+package com.h3c.common.jsp;
 
 /**
  * Handles escaping of characters that could be interpreted as XML markup.
