@@ -33,6 +33,9 @@
             <plugin>
                 <groupId>de.juplo</groupId>
                 <artifactId>hibernate4-maven-plugin</artifactId>
+                <configuration>
+                    <scanDependencies>none</scanDependencies>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

@@ -23,8 +23,8 @@
         <!-- Uncomment if you want to see Hibernate's SQL -->
         <!--<Logger name="org.hibernate.SQL" level="debug"/>-->
         <Logger name="org.springframework" level="warn"/>
-        <Logger name="org.appfuse" level="debug"/>
-        <Logger name="org.appfuse.tool" level="info"/>
+        <Logger name="com.h3c" level="debug"/>
+        <Logger name="com.h3c.tool" level="info"/>
 
         <Root level="warn">
             <AppenderRef ref="Console" />
