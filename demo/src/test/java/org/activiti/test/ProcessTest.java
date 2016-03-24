@@ -1,20 +1,17 @@
 package org.activiti.test;
 
-import org.activiti.engine.RepositoryService;
+import com.h3c.common.util.DateUtil;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.activiti.engine.test.ActivitiRule;
 import org.activiti.engine.test.Deployment;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,82 +28,57 @@ public class ProcessTest {
     @Autowired
     private TaskService taskService;
 
-    @Autowired
-    private RepositoryService repositoryService;
-
-    @Autowired
-    @Rule
-    public ActivitiRule activitiSpringRule;
-
     @Test
     @Deployment
     public void vacationRequestTest() {
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("employeeName", "Kermit");
+        final String employeeName = "Kermit";
+        //请假正文
+        variables.put("employeeName", employeeName);
         variables.put("numberOfDays", new Integer(4));
         variables.put("vacationMotivation", "I'm really tired!");
 
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("vacationRequest", variables);
+        //请假人联系信息，后续发送邮件通知会使用
+        variables.put("male", true);
+        variables.put("recipient", "651150151@qq.com");
+        variables.put("recipientName", "Lu, Xing-Lin");
+        variables.put("now", DateUtil.convertDateToString(new Date()));
 
+        runtimeService.startProcessInstanceByKey("vacationRequest", variables);
         assertEquals(1, runtimeService.createProcessInstanceQuery().count());
-    }
 
-    @Test
-    public void countProcessInstanceTest() {
-        assertEquals(0, runtimeService.createProcessInstanceQuery().count());
-    }
-
-    /**
-     * 测试任务查询功能
-     */
-    @Test
-    public void queryTaskTest() {
-        List<Task> tasks = taskService.createTaskQuery().list();
-        for (Task task : tasks) {
-            System.out.println("Process InstanceId available: " + task.getProcessInstanceId());
-            System.out.println("Task available: " + task.getName());
-        }
-        assertEquals(0, tasks.size());
-    }
-
-    /**
-     * 测试完成任务
-     */
-    @Test
-    public void completeTaskTest() {
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateUser("Kermit").list();
+        //经理审批1：拒绝，工作紧，无法安排调休
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("management").list();
 
         if (tasks.size() > 0) {
             Task task = tasks.get(0);
-
             Map<String, Object> taskVariables = new HashMap<String, Object>();
-            taskVariables.put("vacationApproved", "true");
+            taskVariables.put("vacationApproved", "false");
             taskVariables.put("managerMotivation", "We have a tight deadline!");
             taskService.complete(task.getId(), taskVariables);
         }
-    }
 
-    /**
-     * 测试流程定义删除功能
-     */
-    @Test
-    public void deleteProcessDefineTest() {
-        List<ProcessDefinition> defines = repositoryService.createProcessDefinitionQuery().list();
-        for (ProcessDefinition define : defines) {
-            //repositoryService.deleteDeployment(define.getDeploymentId());
+        //员工重新发送请假
+        tasks = taskService.createTaskQuery().taskAssignee(employeeName).list();
+        if (tasks.size() > 0) {
+            Task task = tasks.get(0);
+            Map<String, Object> taskVariables = new HashMap<String, Object>();
+            taskVariables.put("resendRequest", "true");
+            taskService.complete(task.getId(), taskVariables);
         }
-        assertEquals(5, repositoryService.createProcessDefinitionQuery().count());
-    }
 
-    /**
-     * 测试流程实例删除功能
-     */
-    @Test
-    public void deleteProcessInstanceTest() {
-        List<ProcessInstance> insts = runtimeService.createProcessInstanceQuery().list();
-        for (ProcessInstance inst : insts) {
-            //runtimeService.deleteProcessInstance(inst.getId(), null);
+        assertEquals(1, taskService.createTaskQuery().count());
+
+        //批准请假
+        tasks = taskService.createTaskQuery().taskCandidateGroup("management").list();
+        if (tasks.size() > 0) {
+            Task task = tasks.get(0);
+            Map<String, Object> taskVariables = new HashMap<String, Object>();
+            taskVariables.put("vacationApproved", "true");
+            taskVariables.put("managerMotivation", "Okay, have nice vacation!");
+            taskService.complete(task.getId(), taskVariables);
         }
-        assertEquals(0, runtimeService.createProcessInstanceQuery().count());
+
+        assertEquals(0, taskService.createTaskQuery().count());
     }
 }

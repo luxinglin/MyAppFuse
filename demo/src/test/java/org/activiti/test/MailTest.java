@@ -5,13 +5,8 @@ package org.activiti.test;
  */
 
 import com.h3c.common.util.DateUtil;
-import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.test.ActivitiRule;
 import org.activiti.engine.test.Deployment;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,34 +17,28 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-resources.xml")
 public class MailTest {
     @Autowired
     private RuntimeService runtimeService;
 
-    @Autowired
-    private TaskService taskService;
-
-    @Autowired
-    private RepositoryService repositoryService;
-
-    @Autowired
-    @Rule
-    public ActivitiRule activitiSpringRule;
-
     @Test
     @Deployment
     public void sendMailTest() {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("male", true);
-        variables.put("recipient", "xinglin.lu@hpe.com");
-        variables.put("cc", "651150151@qq.com");
-        variables.put("bcc", "mail2lxl@qq.com");
+        final String email = "651150151@qq.com";
+        variables.put("recipient", email);
+        variables.put("cc", email);
+        variables.put("bcc", email);
         variables.put("recipientName", "Lu, Xing-Lin");
         variables.put("orderId", "201603240001");
         variables.put("now", DateUtil.convertDateToString(new Date()));
 
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("sendMailProcess", variables);
+        runtimeService.startProcessInstanceByKey("sendMailProcess", variables);
+        assertEquals(0, runtimeService.createProcessInstanceQuery().count());
     }
 }

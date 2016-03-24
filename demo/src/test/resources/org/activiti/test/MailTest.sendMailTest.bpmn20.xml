@@ -4,7 +4,7 @@
              xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
              xmlns:activiti="http://activiti.org/bpmn">
 
-    <process id="sendMailProcess">
+    <process id="sendMailProcess" name="Send Email">
         <startEvent id="start"/>
 
         <!--    <startEvent id="theStart">
@@ -17,7 +17,7 @@
 
         <serviceTask id="sendMail" activiti:type="mail">
             <extensionElements>
-                <activiti:field name="from" stringValue="lxl@gary.com"/>
+                <activiti:field name="from" stringValue="admin@gary.com"/>
                 <activiti:field name="to" expression="${recipient}"/>
                 <activiti:field name="cc" expression="${cc}"/>
                 <activiti:field name="bcc" expression="${bcc}"/>

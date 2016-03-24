@@ -43,7 +43,34 @@
             <conditionExpression xsi:type="tFormalExpression">${vacationApproved == 'true'}</conditionExpression>
         </sequenceFlow>
 
-        <task id="sendApprovalMail" name="Send confirmation e-mail"/>
+        <!--<task id="sendApprovalMail" name="Send confirmation e-mail"/>-->
+        <serviceTask id="sendApprovalMail" activiti:type="mail" name="Send confirmation e-mail">
+            <extensionElements>
+                <activiti:field name="from" stringValue="admin@gary.com"/>
+                <activiti:field name="to" expression="${recipient}"/>
+                <!--<activiti:field name="cc" expression="${cc}"/>
+                <activiti:field name="bcc" expression="${bcc}"/>-->
+                <activiti:field name="subject" expression="Your request has been approved"/>
+                <activiti:field name="html">
+                    <activiti:expression>
+                        <![CDATA[
+          <html>
+            <body>
+              Hello ${male ? 'Mr.' : 'Mrs.' } ${recipientName},<br/><br/>
+
+              As of ${now}, your vacation request has been <b>approved</b>.<br/><br/>
+
+              Kind regards,<br/>
+
+              Boss Wang.
+            </body>
+          </html>
+        ]]>
+                    </activiti:expression>
+                </activiti:field>
+            </extensionElements>
+        </serviceTask>
+
         <sequenceFlow id="flow4" sourceRef="sendApprovalMail" targetRef="theEnd1"/>
         <endEvent id="theEnd1"/>
 
