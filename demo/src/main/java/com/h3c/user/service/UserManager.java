@@ -89,7 +89,7 @@ public interface UserManager extends GenericManager<User, Long> {
      * UrlTemplate should include two placeholders '{username}' for username and '{token}' for the recovery token.
      * 
      * @param user
-     * @param urlTemplateurl
+     * @param urlTemplate
      *            template including two placeholders '{username}' and '{token}'
      * @return
      */
