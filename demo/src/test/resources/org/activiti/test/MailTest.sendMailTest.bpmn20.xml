@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions id="definitions"
+             targetNamespace="http://activiti.org/bpmn20"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:activiti="http://activiti.org/bpmn">
+
+    <process id="sendMailProcess">
+        <startEvent id="start"/>
+
+        <!--    <startEvent id="theStart">
+                <timerEventDefinition>
+                    <timeCycle>R4/2016-03-24T19:28/PT5M</timeCycle>
+                </timerEventDefinition>
+            </startEvent>-->
+
+        <sequenceFlow id="flow1" sourceRef="start" targetRef="sendMail"/>
+
+        <serviceTask id="sendMail" activiti:type="mail">
+            <extensionElements>
+                <activiti:field name="from" stringValue="lxl@gary.com"/>
+                <activiti:field name="to" expression="${recipient}"/>
+                <activiti:field name="cc" expression="${cc}"/>
+                <activiti:field name="bcc" expression="${bcc}"/>
+                <activiti:field name="subject" expression="Your order ${orderId} has been shipped"/>
+                <activiti:field name="html">
+                    <activiti:expression>
+                        <![CDATA[
+          <html>
+            <body>
+              Hello ${male ? 'Mr.' : 'Mrs.' } ${recipientName},<br/><br/>
+
+              As of ${now}, your order has been <b>processed and shipped</b>.<br/><br/>
+
+              Kind regards,<br/>
+
+              TheCompany.
+            </body>
+          </html>
+        ]]>
+                    </activiti:expression>
+                </activiti:field>
+            </extensionElements>
+        </serviceTask>
+
+
+        <sequenceFlow id="flow2" sourceRef="sendMail" targetRef="end"/>
+        <endEvent id="end"/>
+    </process>
+</definitions>

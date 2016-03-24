@@ -27,6 +27,7 @@
             classpath:/applicationContext-resources.xml
             classpath:/applicationContext-dao.xml
             classpath:/applicationContext-service.xml
+            classpath:/activiti-context.xml
             classpath*:/applicationContext.xml
             /WEB-INF/applicationContext*.xml
             /WEB-INF/cxf-servlet.xml
@@ -172,6 +173,9 @@
     </listener>
     <listener>
         <listener-class>com.h3c.common.jsp.EscapeXmlELResolverListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.h3c.activiti.listener.ProcessEnginesServletContextListener</listener-class>
     </listener>
     <listener>
         <listener-class>net.sf.navigator.menu.MenuContextListener</listener-class>

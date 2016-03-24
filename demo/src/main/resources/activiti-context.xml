@@ -1,0 +1,81 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="threadFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:jboss/ee/concurrency/factory/default"/>
+    </bean>
+
+    <!--  <bean id="customJobExecutor" class="org.activiti.engine.impl.jobexecutor.ManagedJobExecutor">
+          <property name="threadFactory" ref="threadFactory"/>
+      </bean>-->
+
+
+    <!-- <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">-->
+    <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+
+        <!--   <property name="jdbcUrl" value="${jdbc.url}"/>
+           <property name="jdbcDriver" value="${jdbc.driverClassName}"/>
+           <property name="jdbcUsername" value="${jdbc.username}"/>
+           <property name="jdbcPassword" value="${jdbc.password}"/>
+
+           <property name="databaseSchemaUpdate" value="true"/>
+
+           <property name="jobExecutorActivate" value="false"/>-->
+
+        <!--5.15 and new-->
+        <!--<property name="asyncExecutorEnabled" value="true"/>
+        <property name="asyncExecutorActivate" value="false"/>-->
+
+        <!--<property name="history" value="audit"/>
+        <property name="processDefinitionCacheLimit" value="10"/>-->
+        <!--允许自定义缓存-->
+        <!--<property name="processDefinitionCache">
+            <bean class="org.activiti.MyCache" />
+        </property>-->
+
+
+        <!--5.15 and new-->
+        <!--
+        <property name="eventListeners">
+               <list>
+                   <bean class="org.activiti.engine.example.MyEventListener" />
+               </list>
+           </property>
+           -->
+
+        <!--To get notified when certain types of events get dispatched, use the typedEventListeners property, which expects a map
+        <property name="typedEventListeners">
+             <map>
+                 <entry key="JOB_EXECUTION_SUCCESS,JOB_EXECUTION_FAILURE" >
+                     <list>
+                         <bean class="org.activiti.engine.example.MyJobEventListener" />
+                     </list>
+                 </entry>
+             </map>
+         </property>
+         -->
+
+        <property name="mailServerHost" value="${mail.host}"/>
+        <property name="mailServerPort" value="${mail.port}"/>
+        <property name="mailServerUsername" value="${mail.username}"/>
+        <property name="mailServerPassword" value="${mail.password}"/>
+
+        <property name="dataSource" ref="dataSource"/>
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="databaseSchemaUpdate" value="true"/>
+        <property name="jobExecutorActivate" value="false"/>
+    </bean>
+
+    <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+        <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
+    </bean>
+
+    <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"/>
+    <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService"/>
+    <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService"/>
+    <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService"/>
+    <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService"/>
+
+
+</beans>

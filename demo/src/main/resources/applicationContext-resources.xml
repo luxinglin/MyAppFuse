@@ -33,4 +33,6 @@
         <property name="validationQuery" value="${jdbc.validationQuery}"/>
         <property name="testOnBorrow" value="true"/>
     </bean>
+
+
 </beans>
