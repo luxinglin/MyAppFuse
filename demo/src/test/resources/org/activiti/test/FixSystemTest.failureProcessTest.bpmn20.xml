@@ -34,7 +34,7 @@
         <!-- Timer on subprocess -->
         <boundaryEvent id="timer" attachedToRef="subProcess">
             <timerEventDefinition>
-                <timeDuration>PT1M</timeDuration>
+                <timeDuration>PT10S</timeDuration>
             </timerEventDefinition>
         </boundaryEvent>
 

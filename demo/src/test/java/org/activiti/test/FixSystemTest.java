@@ -4,6 +4,8 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.test.Deployment;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-resources.xml")
 public class FixSystemTest {
+    private static final Log log = LogFactory.getLog(FixSystemTest.class);
 
     @Autowired
     private RuntimeService runtimeService;
@@ -35,10 +38,22 @@ public class FixSystemTest {
     @Test
     @Deployment
     public void failureProcessTest() {
+        //系统修复流程测试，包括一线处理逻辑和一线处理超时自动升级为二线处理的逻辑
+        log.info("begin to fix system failure normally test");
+        int seconds = 4;
+        startProcess(seconds);
+        log.info("fix system failure normally test end");
+        log.info("begin to fix system failure level upgrade test");
+        seconds = 6;
+        startProcess(seconds);
+        log.info("fix system failure level upgrade test end");
+    }
+
+    private void startProcess(int seconds) {
         //启动故障修复流程
         runtimeService.startProcessInstanceByKey("fixSystemFailure");
 
-        //主流程启动后包括2个流程实例
+        //主流程启动后包括1个流程实例
         assertEquals(1, runtimeService.createProcessInstanceQuery().count());
 
         //engineering
@@ -51,13 +66,14 @@ public class FixSystemTest {
         //并行任务单
         assertEquals(2, taskService.createTaskQuery().count());
 
-        int seconds = 31;
+
         for (Task task : taskList) {
             try {
                 Thread.sleep(seconds * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            log.info("current task is " + task.getName() + ", with id " + task.getId());
             try {
                 taskService.complete(task.getId());
             } catch (Exception ex) {
@@ -73,12 +89,14 @@ public class FixSystemTest {
         //提交报告
         taskList = taskService.createTaskQuery().taskCandidateGroup(lev1Engineering).list();
         for (Task task : taskList) {
+            log.info("current task is " + task.getName() + ", with id " + task.getId());
             taskService.complete(task.getId());
         }
 
         //超时升级
         taskList = taskService.createTaskQuery().taskCandidateGroup(lev2Engineering).list();
         for (Task task : taskList) {
+            log.info("[upgrade to lev2]current task is " + task.getName() + ", with id " + task.getId());
             taskService.complete(task.getId());
         }
 

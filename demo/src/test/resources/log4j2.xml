@@ -17,6 +17,7 @@
         <!--<Logger name="org.hibernate.SQL" level="debug"/>-->
         <Logger name="org.springframework" level="warn"/>
         <Logger name="com.h3c" level="debug"/>
+        <Logger name="org.activiti.test" level="debug"/>
 
         <Root level="warn">
             <AppenderRef ref="Console" />
