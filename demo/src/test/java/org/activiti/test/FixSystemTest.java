@@ -21,8 +21,6 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Lu, Xing-Lin&lt;br&gt;
  * @version 1.0&lt;br&gt;
- * @taskId &lt;br&gt;
- * @createDate 2016/3/25 &lt;br&gt;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-resources.xml")
