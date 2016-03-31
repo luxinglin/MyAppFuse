@@ -21,17 +21,18 @@
         <param-value>en</param-value>
     </context-param>
     <!-- Context Configuration locations for Spring XML files -->
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath:/applicationContext-resources.xml
             classpath:/applicationContext-dao.xml
             classpath:/applicationContext-service.xml
-            classpath:/activiti-context.xml
             classpath*:/applicationContext.xml
             /WEB-INF/applicationContext*.xml
             /WEB-INF/cxf-servlet.xml
             /WEB-INF/security.xml
+
         </param-value>
     </context-param>
 
@@ -202,16 +203,6 @@
     </servlet>
 
 
-    <!--<servlet>
-        <servlet-name>jersey</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-        <init-param>
-            <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>org.madbit.rest.ws</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>-->
-
     <servlet-mapping>
         <servlet-name>dwr-invoker</servlet-name>
         <url-pattern>/dwr/*</url-pattern>
@@ -222,10 +213,6 @@
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
 
-    <!-- <servlet-mapping>
-         <servlet-name>jersey</servlet-name>
-         <url-pattern>/rest/*</url-pattern>
-     </servlet-mapping>-->
 
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
