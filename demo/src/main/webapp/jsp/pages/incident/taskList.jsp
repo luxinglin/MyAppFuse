@@ -29,7 +29,7 @@
         <display:column property="id" escapeXml="true" sortable="true" titleKey="ID" style="width: 25%"/>
 
         <display:column property="name" escapeXml="true" sortable="true" titleKey="task.name" style="width: 25%"
-                         paramId="id" paramProperty="id"/>
+                       url="/incident/completeTask"  paramId="id" paramProperty="id"/>
 
         <display:column property="assignee" escapeXml="true" sortable="true" titleKey="Assignee" style="width: 25%"
                          paramId="id" paramProperty="id"/>
