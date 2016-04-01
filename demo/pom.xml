@@ -114,6 +114,7 @@
         <appfuse.version>3.5.0</appfuse.version>
         <java.version>1.7</java.version>
         <!--MySql-->
+        <hibernate.dialect>org.hibernate.dialect.MySQL5Dialect</hibernate.dialect>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
         <jdbc.version>5.1.27</jdbc.version>

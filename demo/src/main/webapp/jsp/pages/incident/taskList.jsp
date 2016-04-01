@@ -16,30 +16,37 @@
 <div class="col-sm-10">
     <h2>View Tasks</h2>
 
-    <form method="post" action="${ctx}/incident/startProcess" id="searchForm" class="form-inline">
-        <div id="search" class="text-right">
-            <button id="button.search" class="btn btn-default btn-sm" type="submit">
-                <i class="icon-search"></i> Start Process
+    <form method="post" action="${ctx}/incidentform" id="startForm" class="form-inline">
+        <div id="start" class="text-right">
+            <button id="button.start" class="btn btn-default btn-sm" type="submit">
+                <i class="icon-search"></i> Start Vacation Process
             </button>
         </div>
     </form>
+
     <display:table name="incidentList" cellspacing="0" cellpadding="0" requestURI=""
                    defaultsort="1" id="incidents" pagesize="25" class="table table-condensed table-striped table-hover"
                    export="false">
         <display:column property="id" escapeXml="true" sortable="true" titleKey="ID" style="width: 25%"/>
 
         <display:column property="name" escapeXml="true" sortable="true" titleKey="task.name" style="width: 25%"
-                       url="/incident/completeTask"  paramId="id" paramProperty="id"/>
+                        url="/incident/completeTask" paramId="id" paramProperty="id"/>
 
         <display:column property="assignee" escapeXml="true" sortable="true" titleKey="Assignee" style="width: 25%"
-                         paramId="id" paramProperty="id"/>
+                        paramId="id" paramProperty="id"/>
+
+        <display:column property="description" escapeXml="true" sortable="true" titleKey="Description"
+                        style="width: 25%"/>
 
     </display:table>
 
+    <form method="post" action="${ctx}/incident/deployVacationProcess" id="deployForm" class="form-inline">
+        <div id="deploy" class="text-right">
+            <button id="button.deploy" class="btn btn-default btn-sm" type="submit">
+                <i class="icon-search"></i> Deploy Vacation Process
+            </button>
+        </div>
+    </form>
 
 </div>
-<script>
-    function completeTask() {
-        alert("to Complete task");
-    }
-</script>
+

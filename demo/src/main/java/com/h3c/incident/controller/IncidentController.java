@@ -1,14 +1,12 @@
 package com.h3c.incident.controller;
 
+import com.h3c.activiti.service.ProcessService;
 import com.h3c.common.Constants;
 import com.h3c.common.hibernate.exception.SearchException;
 import com.h3c.common.util.DateUtil;
 import com.h3c.user.controller.BaseFormController;
 import com.h3c.user.service.UserManager;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Task;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,22 +39,15 @@ public class IncidentController extends BaseFormController {
 
     @Autowired
     private UserManager userManager = null;
-
     @Autowired
-    private RuntimeService runtimeService;
-
-    @Autowired
-    private RepositoryService repositoryService;
-
-    @Autowired
-    private TaskService taskService;
+    private ProcessService processService;
 
     public IncidentController() {
         setSuccessView("redirect:/incident/listTask");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/listIncident")
-    public ModelAndView list() throws Exception {
+    public ModelAndView listIncident() throws Exception {
         log.info("try to load all incidents");
         Model model = new ExtendedModelMap();
         try {
@@ -69,74 +60,61 @@ public class IncidentController extends BaseFormController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/listTask")
-    public ModelAndView listTasks(@RequestParam(required = false)
-                                          String lev1Engineering) {
+    public ModelAndView listTask() {
         Model model = new ExtendedModelMap();
         try {
-            log.error("listTasks with group: " + lev1Engineering);
-            List<Task> taskList = taskService.createTaskQuery().list();
+            List<Task> taskList = this.processService.listAllTasks();
             model.addAttribute("incidentList", taskList);
         } catch (SearchException se) {
             model.addAttribute("searchError", se.getMessage());
         }
-
         return new ModelAndView("incident/taskList", model.asMap());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/listProcDef")
+    public ModelAndView listProcDef() throws Exception {
+        Model model = new ExtendedModelMap();
+        try {
+            List<ProcessDefinition> list = this.processService.listAllProcDefs();
+            model.addAttribute("procList", list);
+        } catch (SearchException se) {
+            model.addAttribute("searchError", se.getMessage());
+            model.addAttribute(userManager.getUsers());
+        }
+        return new ModelAndView("incident/procDefList", model.asMap());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/completeTask")
     public String completeTask(@RequestParam(required = false) String id) {
-        if (id == null || id.trim().isEmpty())
-            return getSuccessView();
-        try {
-            List<Task> tasks = taskService.createTaskQuery().taskId(id).list();
-            if (tasks.size() > 0) {
-                Task task = tasks.get(0);
-                if (task.getName().equals("Handle vacation request")) {
-                    Map<String, Object> taskVariables = new HashMap<String, Object>();
-                    String passed = System.currentTimeMillis() % 2 == 0 ? "true" : "false";
-                    taskVariables.put("vacationApproved", passed);
-                    taskVariables.put("managerMotivation", "We have a tight deadline!");
-                    taskService.complete(task.getId(), taskVariables);
-                } else if ("Adjust vacation request".equals(task.getName())) {
-                    Map<String, Object> taskVariables = new HashMap<String, Object>();
-                    taskVariables.put("resendRequest", "true");
-                    taskService.complete(task.getId(), taskVariables);
-                } else {
-                    taskService.complete(task.getId());
-                }
-                log.info("completeTask success with id: " + id);
-            }
-        } catch (SearchException se) {
-        } catch (Exception ex) {
-            log.error("completeTask failed:\n" + ex.getMessage());
-        }
+        String ret = this.processService.completeTask(id);
+        log.info("completeTask: " + ret);
         return getSuccessView();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/startProcess")
-    public String startProcess() {
+    @RequestMapping(method = RequestMethod.POST, value = "/startVacationRequest")
+    public String startVacationRequest() {
         Map<String, Object> variables = new HashMap<String, Object>();
         final String employeeName = "Kermit";
         //请假正文
         variables.put("employeeName", employeeName);
         variables.put("numberOfDays", new Integer(4));
         variables.put("vacationMotivation", "I'm really tired!");
-
         //请假人联系信息，后续发送邮件通知会使用
         variables.put("male", true);
-        variables.put("recipient", "651150151@qq.com");
+        variables.put("recipient", "xinglin.lu@hpe.com");
         variables.put("recipientName", "Lu, Xing-Lin");
         variables.put("now", DateUtil.convertDateToString(new Date()));
 
-        runtimeService.startProcessInstanceByKey("vacationRequest", variables);
+        String instId = processService.startProcess("vacationRequest", variables);
+        log.info(employeeName + " startVacationRequest successfully with id: " + instId);
 
-        //C:\Work\50.Project\agile\App\demo\src\main\resources\bpmn\FixSystemTest.failureProcessTest.bpmn20.xml
-        /*Deployment deployment = repositoryService.createDeployment()
-                .addClasspathResource("/bpmn/FixSystemTest.failureProcessTest.bpmn20.xml")
-                .deploy();
-        log.info("deploy name: "+deployment.getId());*/
-        //启动故障修复流程
-        runtimeService.startProcessInstanceByKey("fixSystemFailure");
+        return this.getSuccessView();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/deployVacationProcess")
+    public String deployVacationProcess() {
+        this.processService.deployProcess("/bpmn/ProcessTest.vacationRequestTest.bpmn20.xml",
+                "Vacation Deploy");
         return this.getSuccessView();
     }
 

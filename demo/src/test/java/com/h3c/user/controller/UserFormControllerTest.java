@@ -24,9 +24,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ContextConfiguration(locations = {
-    "classpath:/applicationContext-resources.xml",
-    "classpath:/applicationContext-dao.xml", "classpath:/applicationContext-service.xml",
-    "/WEB-INF/applicationContext*.xml", "/WEB-INF/dispatcher-servlet.xml", "/WEB-INF/security.xml"})
+        "classpath:/applicationContext-resources.xml",
+        "classpath:/applicationContext-dao.xml", "classpath:/applicationContext-service.xml",
+        "/WEB-INF/applicationContext*.xml", "/WEB-INF/dispatcher-servlet.xml", "/WEB-INF/security.xml"})
 @Transactional
 @WebAppConfiguration
 public class UserFormControllerTest extends BaseControllerTestCase {
@@ -42,7 +42,7 @@ public class UserFormControllerTest extends BaseControllerTestCase {
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
-            .addFilters(springSecurityFilterChain).build();
+                .addFilters(springSecurityFilterChain).build();
     }
 
     @Test
@@ -50,18 +50,18 @@ public class UserFormControllerTest extends BaseControllerTestCase {
         log.debug("testing add new user...");
 
         HttpSession session = mockMvc.perform(post("/j_security_check")
-            .param("j_username", "admin").param("j_password", "admin"))
-            .andExpect(status().is(HttpStatus.FOUND.value()))
-            .andExpect(redirectedUrl("/"))
-            .andReturn()
-            .getRequest()
-            .getSession();
+                .param("j_username", "admin").param("j_password", "admin"))
+                .andExpect(status().is(HttpStatus.FOUND.value()))
+                .andExpect(redirectedUrl("/"))
+                .andReturn()
+                .getRequest()
+                .getSession();
 
         mockMvc.perform((get("/userform").session((MockHttpSession) session))
-            .param("method", "Add"))
-            .andExpect(status().isOk())
-            .andExpect(model().attributeExists("user"))
-            .andExpect(model().attribute("user", hasProperty("username", nullValue())));
+                .param("method", "Add"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attribute("user", hasProperty("username", nullValue())));
     }
 
     @Test
@@ -69,16 +69,16 @@ public class UserFormControllerTest extends BaseControllerTestCase {
         log.debug("testing add new user...");
 
         HttpSession session = mockMvc.perform(post("/j_security_check")
-            .param("j_username", "user").param("j_password", "user"))
-            .andExpect(status().is(HttpStatus.FOUND.value()))
-            .andExpect(redirectedUrl("/"))
-            .andReturn()
-            .getRequest()
-            .getSession();
+                .param("j_username", "user").param("j_password", "user"))
+                .andExpect(status().is(HttpStatus.FOUND.value()))
+                .andExpect(redirectedUrl("/"))
+                .andReturn()
+                .getRequest()
+                .getSession();
 
         mockMvc.perform((get("/userform").session((MockHttpSession) session))
-            .param("method", "Add"))
-            .andExpect(status().is(HttpStatus.FORBIDDEN.value()));
+                .param("method", "Add"))
+                .andExpect(status().is(HttpStatus.FORBIDDEN.value()));
     }
 
     @Test
@@ -86,8 +86,8 @@ public class UserFormControllerTest extends BaseControllerTestCase {
         log.debug("testing cancel...");
 
         mockMvc.perform((post("/userform")
-            .param("cancel", "")))
-            .andExpect(redirectedUrl("/home"));
+                .param("cancel", "")))
+                .andExpect(redirectedUrl("/home"));
     }
 
     @Test
@@ -95,17 +95,17 @@ public class UserFormControllerTest extends BaseControllerTestCase {
         log.debug("testing edit...");
 
         HttpSession session = mockMvc.perform(post("/j_security_check")
-            .param("j_username", "admin").param("j_password", "admin"))
-            .andExpect(status().is(HttpStatus.FOUND.value()))
-            .andExpect(redirectedUrl("/"))
-            .andReturn()
-            .getRequest()
-            .getSession();
+                .param("j_username", "admin").param("j_password", "admin"))
+                .andExpect(status().is(HttpStatus.FOUND.value()))
+                .andExpect(redirectedUrl("/"))
+                .andReturn()
+                .getRequest()
+                .getSession();
 
         mockMvc.perform((get("/userform").session((MockHttpSession) session)
-            .param("id", "-1")))
-            .andExpect(model().attributeExists("user"))
-            .andExpect(model().attribute("user", hasProperty("fullName", is("Tomcat User"))));
+                .param("id", "-1")))
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attribute("user", hasProperty("fullName", is("Tomcat User"))));
     }
 
     @Test
@@ -113,16 +113,16 @@ public class UserFormControllerTest extends BaseControllerTestCase {
         log.debug("testing edit...");
 
         HttpSession session = mockMvc.perform(post("/j_security_check")
-            .param("j_username", "user").param("j_password", "user"))
-            .andExpect(status().is(HttpStatus.FOUND.value()))
-            .andExpect(redirectedUrl("/"))
-            .andReturn()
-            .getRequest()
-            .getSession();
+                .param("j_username", "user").param("j_password", "user"))
+                .andExpect(status().is(HttpStatus.FOUND.value()))
+                .andExpect(redirectedUrl("/"))
+                .andReturn()
+                .getRequest()
+                .getSession();
 
         mockMvc.perform((get("/userform").session((MockHttpSession) session))
-            .param("id", "-1"))
-            .andExpect(status().is(HttpStatus.FORBIDDEN.value()));
+                .param("id", "-1"))
+                .andExpect(status().is(HttpStatus.FORBIDDEN.value()));
     }
 
     @Test
@@ -130,16 +130,18 @@ public class UserFormControllerTest extends BaseControllerTestCase {
         log.debug("testing edit profile...");
 
         HttpSession session = mockMvc.perform(post("/j_security_check")
-            .param("j_username", "user").param("j_password", "user"))
-            .andExpect(status().is(HttpStatus.FOUND.value()))
-            .andExpect(redirectedUrl("/"))
-            .andReturn()
-            .getRequest()
-            .getSession();
+                .param("j_username", "user").param("j_password", "user"))
+                .andExpect(status().is(HttpStatus.FOUND.value()))
+                .andExpect(redirectedUrl("/"))
+                .andReturn()
+                .getRequest()
+                .getSession();
 
         mockMvc.perform((get("/userform").session((MockHttpSession) session)))
-            .andExpect(status().isOk())
-            .andExpect(model().attribute("user", hasProperty("fullName", is("Tomcat User"))));
+                .andExpect(status().isOk())
+                //.andExpect(model().attribute("user", hasProperty("fullName", is("Tomcat Updated Last Name"))));
+                .andExpect(model().attribute("user", hasProperty("fullName", is("Tomcat User"))));
+
     }
 
     @Test
@@ -151,49 +153,49 @@ public class UserFormControllerTest extends BaseControllerTestCase {
         user.setLastName("Updated Last Name");
 
         HttpSession session = mockMvc.perform(post("/j_security_check")
-            .param("j_username", "user").param("j_password", "user"))
-            .andExpect(status().is(HttpStatus.FOUND.value()))
-            .andExpect(redirectedUrl("/"))
-            .andReturn()
-            .getRequest()
-            .getSession();
+                .param("j_username", "user").param("j_password", "user"))
+                .andExpect(status().is(HttpStatus.FOUND.value()))
+                .andExpect(redirectedUrl("/"))
+                .andReturn()
+                .getRequest()
+                .getSession();
 
         mockMvc.perform((post("/userform")
-            .param("id", user.getId().toString())
-            .param("username", user.getUsername())
-            .param("firstName", user.getFirstName())
-            .param("lastName", user.getLastName())
-            .param("email", user.getEmail())
-            .param("passwordHint", user.getPasswordHint())
-            .session((MockHttpSession) session)))
-            .andExpect(status().is3xxRedirection())
-            .andExpect(model().hasNoErrors());
+                .param("id", user.getId().toString())
+                .param("username", user.getUsername())
+                .param("firstName", user.getFirstName())
+                .param("lastName", user.getLastName())
+                .param("email", user.getEmail())
+                .param("passwordHint", user.getPasswordHint())
+                .session((MockHttpSession) session)))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().hasNoErrors());
     }
 
     @Test
     public void testAddWithMissingFields() throws Exception {
         mockMvc.perform((post("/userform").param("firstName", "Jack")))
-            .andExpect(status().isOk())
-            .andExpect(model().hasErrors())
-            .andExpect(model().errorCount(4));
+                .andExpect(status().isOk())
+                .andExpect(model().hasErrors())
+                .andExpect(model().errorCount(4));
     }
 
     @Test
     public void testRemove() throws Exception {
         HttpSession session = mockMvc.perform(post("/j_security_check")
-            .param("j_username", "admin").param("j_password", "admin"))
-            .andExpect(status().is(HttpStatus.FOUND.value()))
-            .andExpect(redirectedUrl("/"))
-            .andReturn()
-            .getRequest()
-            .getSession();
+                .param("j_username", "admin").param("j_password", "admin"))
+                .andExpect(status().is(HttpStatus.FOUND.value()))
+                .andExpect(redirectedUrl("/"))
+                .andReturn()
+                .getRequest()
+                .getSession();
 
         session = mockMvc.perform((post("/userform"))
-            .session((MockHttpSession) session)
-            .param("delete", "").param("id", "-2"))
-            .andExpect(status().is3xxRedirection())
-            .andExpect(model().hasNoErrors())
-            .andReturn().getRequest().getSession();
+                .session((MockHttpSession) session)
+                .param("delete", "").param("id", "-2"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().hasNoErrors())
+                .andReturn().getRequest().getSession();
 
         assertNotNull(session.getAttribute("successMessages"));
     }

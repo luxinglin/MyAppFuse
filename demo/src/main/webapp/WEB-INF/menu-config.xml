@@ -15,6 +15,7 @@
         <Menu name="IncidentMenu" title="menu.incident" description="Incident Menu" roles="ROLE_ADMIN"
               page="/incident/list">
             <Item name="ViewIncidents" title="menu.view.incidents" page="/incident/listIncident"/>
+            <Item name="ViewProcDefs" title="menu.view.procdef" page="/incident/listProcDef"/>
             <Item name="ViewTasks" title="menu.view.tasks" page="/incident/listTask"/>
         </Menu>
         <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER"/>
