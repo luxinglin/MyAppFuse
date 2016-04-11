@@ -35,6 +35,17 @@
 
     </display:table>
 
-
+    <form method="post" action="${ctx}/incident/deployProcess" id="deployForm" class="form-inline">
+        <select id="select.deploy" name="type">
+            <option value="vacationRequest">Vacation Request</option>
+            <option value="fixSystemFailure">Fix System Failure</option>
+            <option value="sendMailProcess">Send Mail</option>
+        </select>
+        <div id="deploy" class="text-right">
+            <button id="button.deploy" class="btn btn-default btn-sm" type="submit">
+                <i class="icon-search"></i> Deploy Process
+            </button>
+        </div>
+    </form>
 </div>
 

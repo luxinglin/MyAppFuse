@@ -40,13 +40,5 @@
 
     </display:table>
 
-    <form method="post" action="${ctx}/incident/deployVacationProcess" id="deployForm" class="form-inline">
-        <div id="deploy" class="text-right">
-            <button id="button.deploy" class="btn btn-default btn-sm" type="submit">
-                <i class="icon-search"></i> Deploy Vacation Process
-            </button>
-        </div>
-    </form>
-
 </div>
 

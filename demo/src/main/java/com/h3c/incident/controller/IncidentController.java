@@ -4,6 +4,7 @@ import com.h3c.activiti.service.ProcessService;
 import com.h3c.common.Constants;
 import com.h3c.common.hibernate.exception.SearchException;
 import com.h3c.common.util.DateUtil;
+import com.h3c.common.util.ToyUtil;
 import com.h3c.user.controller.BaseFormController;
 import com.h3c.user.service.UserManager;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -111,11 +112,19 @@ public class IncidentController extends BaseFormController {
         return this.getSuccessView();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/deployVacationProcess")
-    public String deployVacationProcess() {
-        this.processService.deployProcess("/bpmn/ProcessTest.vacationRequestTest.bpmn20.xml",
-                "Vacation Deploy");
-        return this.getSuccessView();
-    }
+    @RequestMapping(method = RequestMethod.POST, value = "/deployProcess")
+    public String deployProcess(@RequestParam(required = false) String type) {
+        if (ToyUtil.stringNotEmpty(type)) {
+            Map<String, String> map = new HashMap<>();
+            map.put("vacationRequest", "/bpmn/ProcessTest.vacationRequestTest.bpmn20.xml");
+            map.put("fixSystemFailure", "/bpmn/FixSystemTest.failureProcessTest.bpmn20.xml");
+            map.put("sendMailProcess", "/bpmn/MailTest.sendMailTest.bpmn20.xml");
 
+            if (ToyUtil.stringNotEmpty(map.get(type))) {
+                this.processService.deployProcess(map.get(type),
+                        "deployProcess:" + type);
+            }
+        }
+        return "incident/procDefList";
+    }
 }
