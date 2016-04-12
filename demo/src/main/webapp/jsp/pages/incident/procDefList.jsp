@@ -16,6 +16,23 @@
 <div class="col-sm-10">
     <h2><%--<fmt:message key="userList.title"/>--%>
         View Process Definitions</h2>
+    <form method="post" action="${ctx}/process/deployProcess" id="deployForm" class="form-inline">
+        <div class="container" style="margin-top: 20px;margin-bottom: 20px">
+            <div class="row">
+                <div class="col-md-4">
+                    <select id="select.deploy" name="type">
+                        <option value="vacationRequest">Vacation Request</option>
+                        <option value="fixSystemFailure">Fix System Failure</option>
+                        <option value="sendMailProcess">Send Mail</option>
+                    </select>
+                    <button id="button.deploy" class="btn btn-primary btn-sm" type="submit">
+                        <i class="glyphicon glyphicon-ok"></i> Deploy Process
+                    </button>
+                </div>
+                <div class="col-md-8"></div>
+            </div>
+        </div>
+    </form>
 
     <display:table name="procList" cellspacing="0" cellpadding="0" requestURI=""
                    defaultsort="1" id="incidents" pagesize="25" class="table table-condensed table-striped table-hover"
@@ -35,17 +52,6 @@
 
     </display:table>
 
-    <form method="post" action="${ctx}/incident/deployProcess" id="deployForm" class="form-inline">
-        <select id="select.deploy" name="type">
-            <option value="vacationRequest">Vacation Request</option>
-            <option value="fixSystemFailure">Fix System Failure</option>
-            <option value="sendMailProcess">Send Mail</option>
-        </select>
-        <div id="deploy" class="text-right">
-            <button id="button.deploy" class="btn btn-default btn-sm" type="submit">
-                <i class="icon-search"></i> Deploy Process
-            </button>
-        </div>
-    </form>
+
 </div>
 

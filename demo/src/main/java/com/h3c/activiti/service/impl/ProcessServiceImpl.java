@@ -67,6 +67,25 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
+    public List<Task> listTasks(Map<String, Object> variables) {
+        if (variables == null || variables.size() == 0)
+            return listAllTasks();
+
+        List<Task> taskList = null;
+        try {
+            //TODO 修改查询方法
+            if (variables.containsKey("assignee")) {
+                taskList = taskService.createTaskQuery().taskAssignee(
+                        (String) variables.get("assignee")).list();
+                log.info("任务查询成功，返回任务条数为: " + taskList.size());
+            }
+        } catch (Exception ex) {
+
+        }
+        return taskList;
+    }
+
+    @Override
     public List<ProcessDefinition> listAllProcDefs() {
         List<ProcessDefinition> list = null;
         try {

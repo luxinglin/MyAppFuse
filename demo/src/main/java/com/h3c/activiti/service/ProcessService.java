@@ -33,6 +33,13 @@ public interface ProcessService {
     List<Task> listAllTasks();
 
     /**
+     * 查询满足条件的的任务列表
+     * @param variables
+     * @return
+     */
+    List<Task> listTasks(Map<String, Object> variables);
+
+    /**
      * 查询所有的任务列表
      *
      * @return 任务列表

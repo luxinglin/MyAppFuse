@@ -10,7 +10,7 @@
     <link rel="icon" href="<c:url value="/images/favicon.ico"/>"/>
 
     <!--bootstrap-3.3.6-->
-    <link href="../bootstrap-3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<c:url value='/bootstrap-3.3.6/css/bootstrap.min.css'/>" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="<c:url value='/bootstrap-3.3.6/js/html5shiv.min.js'/>"></script>
     <script src="<c:url value='/bootstrap-3.3.6/js/respond.min.js'/>"></script>
@@ -34,7 +34,8 @@
         <a class="navbar-brand" href="<c:url value='/'/>"><fmt:message key="webapp.name"/></a>
     </div>
 
-    <%@ include file="/common/menu.jsp" %>
+    <%@ include file="/common/bmenu.jsp" %>
+
     <c:if test="${pageContext.request.locale.language ne 'en'}">
         <div id="switchLocale"><a href="<c:url value='/?locale=en'/>">
             <fmt:message key="webapp.name"/> in English</a>

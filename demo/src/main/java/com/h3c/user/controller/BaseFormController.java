@@ -2,16 +2,17 @@ package com.h3c.user.controller;
 
 import com.h3c.common.Constants;
 import com.h3c.common.service.MailEngine;
+import com.h3c.user.model.User;
 import com.h3c.user.service.UserManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.h3c.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -20,21 +21,17 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Implementation of <strong>SimpleFormController</strong> that contains
  * convenience methods for subclasses.  For example, getting the current
  * user and saving messages/errors. This class is intended to
  * be a base class for all Form controllers.
- *
+ * <p>
  * <p><a href="BaseFormController.java.html"><i>View Source</i></a></p>
  *
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
@@ -79,7 +76,7 @@ public class BaseFormController implements ServletContextAware {
         errors.add(error);
         request.getSession().setAttribute(ERRORS_MESSAGES_KEY, errors);
     }
-    
+
     @SuppressWarnings("unchecked")
     public void saveMessage(HttpServletRequest request, String msg) {
         List messages = (List) request.getSession().getAttribute(MESSAGES_KEY);
@@ -115,7 +112,7 @@ public class BaseFormController implements ServletContextAware {
      * @return
      */
     public String getText(String msgKey, String arg, Locale locale) {
-        return getText(msgKey, new Object[] { arg }, locale);
+        return getText(msgKey, new Object[]{arg}, locale);
     }
 
     /**
@@ -149,30 +146,32 @@ public class BaseFormController implements ServletContextAware {
 
     /**
      * Set up a custom property editor for converting form inputs to real objects
+     *
      * @param request the current request
-     * @param binder the data binder
+     * @param binder  the data binder
      */
     @InitBinder
     protected void initBinder(HttpServletRequest request,
                               ServletRequestDataBinder binder) {
         binder.registerCustomEditor(Integer.class, null,
-                                    new CustomNumberEditor(Integer.class, null, true));
+                new CustomNumberEditor(Integer.class, null, true));
         binder.registerCustomEditor(Long.class, null,
-                                    new CustomNumberEditor(Long.class, null, true));
+                new CustomNumberEditor(Long.class, null, true));
         binder.registerCustomEditor(byte[].class,
-                                    new ByteArrayMultipartFileEditor());
-        SimpleDateFormat dateFormat = 
-            new SimpleDateFormat(getText("date.format", request.getLocale()));
+                new ByteArrayMultipartFileEditor());
+        SimpleDateFormat dateFormat =
+                new SimpleDateFormat(getText("date.format", request.getLocale()));
         dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, null, 
-                                    new CustomDateEditor(dateFormat, true));
+        binder.registerCustomEditor(Date.class, null,
+                new CustomDateEditor(dateFormat, true));
     }
 
     /**
      * Convenience message to send messages to users, includes app URL as footer.
+     *
      * @param user the user to send a message to.
-     * @param msg the message to send.
-     * @param url the URL of the application.
+     * @param msg  the message to send.
+     * @param url  the URL of the application.
      */
     protected void sendUserMessage(User user, String msg, String url) {
         if (log.isDebugEnabled()) {
@@ -206,7 +205,7 @@ public class BaseFormController implements ServletContextAware {
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
     }
-   
+
     public final BaseFormController setCancelView(String cancelView) {
         this.cancelView = cancelView;
         return this;
@@ -214,16 +213,16 @@ public class BaseFormController implements ServletContextAware {
 
     public final String getCancelView() {
         // Default to successView if cancelView is invalid
-        if (this.cancelView == null || this.cancelView.length()==0) {
+        if (this.cancelView == null || this.cancelView.length() == 0) {
             return getSuccessView();
         }
-        return this.cancelView;   
+        return this.cancelView;
     }
 
     public final String getSuccessView() {
         return this.successView;
     }
-    
+
     public final BaseFormController setSuccessView(String successView) {
         this.successView = successView;
         return this;
@@ -235,5 +234,24 @@ public class BaseFormController implements ServletContextAware {
 
     protected ServletContext getServletContext() {
         return servletContext;
+    }
+
+    public User getLoginUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(true); // true == allow create
+        SecurityContext ctx = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        return ((User) ctx.getAuthentication().getPrincipal());
+    }
+
+    public Long getLoginUserId(HttpServletRequest request) {
+        if (getLoginUser(request) != null)
+            return getLoginUser(request).getId();
+
+        return null;
+    }
+
+    public String getLoginUserName(HttpServletRequest request) {
+        if (getLoginUser(request) != null)
+            return getLoginUser(request).getFullName();
+        return null;
     }
 }
