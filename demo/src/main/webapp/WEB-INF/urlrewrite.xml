@@ -39,6 +39,10 @@
         <to>/rest/$1</to>
     </rule>
     <rule>
+        <from>/bootstrap-3.3.6/**</from>
+        <to>/bootstrap-3.3.6/$1</to>
+    </rule>
+    <rule>
         <from>/common/**</from>
         <to>/common/$1</to>
     </rule>
@@ -49,6 +53,10 @@
     <rule>
         <from>/images/**</from>
         <to>/images/$1</to>
+    </rule>
+    <rule>
+        <from>/jquery-2.2.3/**</from>
+        <to>/jquery-2.2.3/$1</to>
     </rule>
     <rule>
         <from>/scripts/**</from>
