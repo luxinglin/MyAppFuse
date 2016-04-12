@@ -103,7 +103,7 @@ public class UserFormControllerTest extends BaseControllerTestCase {
                 .getSession();
 
         mockMvc.perform((get("/userform").session((MockHttpSession) session)
-                .param("id", "-1")))
+                .param("id", "1")))
                 .andExpect(model().attributeExists("user"))
                 .andExpect(model().attribute("user", hasProperty("fullName", is("Tomcat User"))));
     }
@@ -148,7 +148,7 @@ public class UserFormControllerTest extends BaseControllerTestCase {
     public void testSave() throws Exception {
         // set updated properties first since adding them later will
         // result in multiple parameters with the same name getting sent
-        User user = ((UserManager) context.getBean("userManager")).getUser("-1");
+        User user = ((UserManager) context.getBean("userManager")).getUser("1");
         user.setConfirmPassword(user.getPassword());
         user.setLastName("Updated Last Name");
 
@@ -192,7 +192,7 @@ public class UserFormControllerTest extends BaseControllerTestCase {
 
         session = mockMvc.perform((post("/userform"))
                 .session((MockHttpSession) session)
-                .param("delete", "").param("id", "-2"))
+                .param("delete", "").param("id", "2"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(model().hasNoErrors())
                 .andReturn().getRequest().getSession();

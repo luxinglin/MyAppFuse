@@ -1,14 +1,13 @@
 package com.h3c.user.service;
 
+import com.h3c.user.model.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.h3c.user.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertNotNull;
@@ -28,7 +27,7 @@ public class UserExistsExceptionTest {
         log.debug("entered 'testAddExistingUser' method");
         assertNotNull(manager);
 
-        User user = manager.getUser("-1");
+        User user = manager.getUser("1");
 
         // create new object with null id - Hibernate doesn't like setId(null)
         User user2 = new User();

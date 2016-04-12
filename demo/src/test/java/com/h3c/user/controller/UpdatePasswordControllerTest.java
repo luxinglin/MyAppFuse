@@ -117,7 +117,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         String username = "admin";
         User user = userManager.getUserByUsername(username);
         String token = userManager.generateRecoveryToken(user);
-        String password = "new-pass";
+        String password = "admin";
 
         Wiser wiser = startWiser(getSmtpPort());
 
@@ -140,7 +140,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     public void testResetPasswordBadToken() throws Exception {
         String username = "admin";
         String badToken = RandomStringUtils.random(32);
-        String password = "new-pass";
+        String password = "admin";
 
         ResultActions update = mockMvc.perform(get("/updatePassword")
             .param("username", username).param("token", badToken)
@@ -158,7 +158,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     public void testUpdatePassword() throws Exception {
         String username = "admin";
         String currentPassword = "admin";
-        String password = "new-pass";
+        String password = "admin";
 
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
             .addFilters(springSecurityFilterChain).build();
@@ -187,7 +187,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     public void testUpdatePasswordBadCurrentPassword() throws Exception {
         String username = "admin";
         String currentPassword = "bad";
-        String password = "new-pass";
+        String password = "admin";
 
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
             .addFilters(springSecurityFilterChain).build();

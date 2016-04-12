@@ -21,15 +21,15 @@
         <column>account_locked</column>
         <column>credentials_expired</column>
         <row>
-            <value description="id">1</value>
-            <value description="username">user</value>
+            <value description="id">-1</value>
+            <value description="username">user_t</value>
             <value description="password">$2a$10$CnQVJ9bsWBjMpeSKrrdDEeuIptZxXrwtI6CZ/OgtNxhIgpKxXeT9y</value>
             <value description="first_name">Tomcat</value>
             <value description="last_name">User</value>
             <value description="address"></value>
             <value description="city">Denver</value>
             <value description="country">US</value>
-            <value description="email">matt_raible@yahoo.com</value>
+            <value description="email">mail2lxl@qq.com</value>
             <value description="phone_number"></value>
             <value description="postal_code">80210</value>
             <value description="province">CO</value>
@@ -42,15 +42,15 @@
             <value description="credentials_expired">0</value>
         </row>
         <row>
-            <value description="id">2</value>
-            <value description="username">admin</value>
+            <value description="id">-2</value>
+            <value description="username">admin_t</value>
             <value description="password">$2a$10$bH/ssqW8OhkTlIso9/yakubYODUOmh.6m5HEJvcBq3t3VdBh7ebqO</value>
             <value description="first_name">Matt</value>
             <value description="last_name">Raible</value>
             <value description="address"></value>
             <value description="city">Denver</value>
             <value description="country">US</value>
-            <value description="email">matt@raibledesigns.com</value>
+            <value description="email">mail2lxl@qq.com</value>
             <value description="phone_number"></value>
             <value description="postal_code">80210</value>
             <value description="province">CO</value>
@@ -82,11 +82,11 @@
         <column>user_id</column>
         <column>role_id</column>
         <row>
-            <value description="user_id">1</value>
+            <value description="user_id">-1</value>
             <value description="role_id">2</value>
         </row>
         <row>
-            <value description="user_id">2</value>
+            <value description="user_id">-2</value>
             <value description="role_id">1</value>
         </row>
     </table>

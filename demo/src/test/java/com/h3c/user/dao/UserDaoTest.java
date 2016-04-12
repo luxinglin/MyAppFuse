@@ -27,16 +27,16 @@ public class UserDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testGetUser() throws Exception {
-        User user = dao.get(-1L);
+        User user = dao.get(1L);
 
         assertNotNull(user);
-        assertEquals(1, user.getRoles().size());
+        assertEquals(2, user.getRoles().size());
         assertTrue(user.isEnabled());
     }
 
     @Test
     public void testGetUserPassword() throws Exception {
-        User user = dao.get(-1L);
+        User user = dao.get(1L);
         String password = dao.getUserPassword(user.getId());
         assertNotNull(password);
         log.debug("password: " + password);
@@ -44,7 +44,7 @@ public class UserDaoTest extends BaseDaoTestCase {
 
     @Test(expected=DataIntegrityViolationException.class)
     public void testUpdateUser() throws Exception {
-        User user = dao.get(-1L);
+        User user = dao.get(1L);
 
         Address address = user.getAddress();
         address.setAddress("new address");
@@ -83,7 +83,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         dao.saveUser(user);
         flush();
 
-        user = dao.get(-1L);
+        user = dao.get(1L);
         assertEquals(2, user.getRoles().size());
 
         //add the same role twice - should result in no additional role
@@ -137,7 +137,7 @@ public class UserDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testUserExists() throws Exception {
-        boolean b = dao.exists(-1L);
+        boolean b = dao.exists(1L);
         assertTrue(b);
     }
 
@@ -158,7 +158,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         assertEquals("Matt", user.getFirstName());
 
         // test mirroring
-        user = dao.get(-2L);
+        user = dao.get(2L);
         user.setFirstName("MattX");
         dao.saveUser(user);
         flush();

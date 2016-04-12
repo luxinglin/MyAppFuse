@@ -8,10 +8,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="<c:url value="/images/favicon.ico"/>"/>
+
     <!--bootstrap-3.3.6-->
     <link href="../bootstrap-3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="<c:url value='/bootstrap-3.3.6/js/html5shiv.min.js'/>"></script>
+    <script src="<c:url value='/bootstrap-3.3.6/js/respond.min.js'/>"></script>
+    <![endif]-->
+
     <title><decorator:title/> | <fmt:message key="webapp.name"/></title>
     <t:assets type="css"/>
     <decorator:head/>
@@ -68,9 +72,8 @@
 <%= (request.getAttribute("scripts") != null) ? request.getAttribute("scripts") : "" %>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../jquery-2.2.3/jquery-2.2.3.min.js"></script>
-<script src="../bootstrap-3.3.6/js/bootstrap.min.js"></script>
+<script src="<c:url value='/jquery-2.2.3/jquery-2.2.3.min.js'/>"></script>
+<script src="<c:url value='/bootstrap-3.3.6/js/bootstrap.min.js'/>"></script>
 </body>
 </html>
